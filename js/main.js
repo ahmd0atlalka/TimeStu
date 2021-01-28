@@ -20,7 +20,7 @@
 
 
 
-        if ($(id).val().trim().match(/^\d*$/) == null) {
+        if ($(id).val().trim().match(/^\d*$/) == null || $(id).val().trim().length != 9) {
             showValidate(id);
             check = false;
         }
@@ -28,11 +28,11 @@
             var today = new Date();
             showdata();
 
-           
+
             // if (today.getHours() == 18 && today.getMinutes() == 34) {
             //     showdata();
 
-                
+
             // }
             // else{
             //     c = `<div id="t2">
@@ -83,16 +83,57 @@
                     console.log(res.user[i]);
                     if (res.user[i]['id'] == $(id).val().trim()) {
                         c = `<div id="t2">
-                        <p > الاسم :  ${res.user[i]['fname']} </p>
-                        <p >  الاسم العائلة :  ${res.user[i]['lname']} </p>
-						<p > الصف :  ${res.user[i]['class']} </p>
-						<p > موضوع الامتحان : ${res.user[i]['Subject']} </p>
-						<p > رقم هوية : ${res.user[i]['id']} </p>
-                        <p > ${res.user[i]['class-Ex']} : غرفة الامتحان   </p>
+                        <p > שם :  ${res.user[i]['fname']}  ${res.user[i]['lname']} </p>
+                        <p > תעודת זהות  :   ${res.user[i]['id']}  </p>
+                        <p > חדר  :   ${res.user[i]['Room']}  </p>`
+                        if (res.user[i]['special'] != "") {
+                            c += `<p > התאמה :  ${res.user[i]['special']}  -   ${res.user[i]['specialData']} </p>`
 
+                        } else {
+                            c += `<p > התאמה : אין </p>`
 
-                    </div>
-                    `
+                        }
+
+                        c += `<p > כיתת אם: ${res.user[i]['Class']} </p>
+                        <p > בחינה  : ${res.user[i]['subject']}(${res.user[i]['IDsubject']}) </p>
+                        <p > תאריך בחינה  : ${res.user[i]['Date']} (${res.user[i]['Stime']}) - (${res.user[i]['Etime']}) </p>
+                        <p> בהצלחה  </p> 
+                    </div>`
+                        var exsam = new Date();
+                        var Eng_t = new Date();
+                       
+                        time = " " + res.user[i]['Stime'];
+                        timeE = " " + res.user[i]['Etime'];
+                        Eng_t.setHours(timeE.substring(1, 3));
+                        Eng_t.setMinutes(timeE.substring(4, 7));
+                        exsam.setHours(time.substring(1, 3));
+                        exsam.setMinutes(time.substring(4, 7) - 20);
+                        const start = exsam.getHours() * 60 + exsam.getMinutes();
+                        const end =Eng_t.getHours()*60+Eng_t.getMinutes();
+                        const date = new Date(); 
+                        const now = date.getHours() * 60 + date.getMinutes();
+                     
+
+                        if (start <= now && now <= end && date.getDate()==res.user[i]['Date'].substring(0, 2) ) {
+
+                        }
+                        else if(now >= end &&date.getDate()==res.user[i]['Date'].substring(0, 2)){
+                            c = `<div id="t2">
+                            <p>انتهى الامتحان :)  </p>
+                            <p> בהצלחה  </p> 
+
+                            `
+                                        $('#t1').show();
+                                        $('#t1').html(c);
+                        }
+                        else {
+                            c = `<div id="t2">
+                <p > ! الرجاء الفحص قبل الامتحان ب 20 دقائق    </p>`
+                            $('#t1').show();
+                            $('#t1').html(c);
+
+                        }
+
                         $('#t1').show();
                         $('#t1').html(c);
                         x = 1;
