@@ -107,7 +107,7 @@
                         Eng_t.setHours(timeE.substring(1, 3));
                         Eng_t.setMinutes(timeE.substring(4, 7));
                         exsam.setHours(time.substring(1, 3));
-                        exsam.setMinutes(time.substring(4, 7) - 20);
+                        exsam.setMinutes(time.substring(4, 7) - 30);
                         const start = exsam.getHours() * 60 + exsam.getMinutes();
                         const end =Eng_t.getHours()*60+Eng_t.getMinutes();
                         const date = new Date(); 
