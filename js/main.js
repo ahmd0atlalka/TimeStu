@@ -3,7 +3,6 @@
 
     /*==================================================================
     [ Validate ]*/
-    var name = $('.validate-input input[name="name"]');
     var id = $('.validate-input input[name="email"]');
 
 
@@ -13,10 +12,7 @@
         var check = true;
 
 
-        if ($(name).val().trim() == '') {
-            showValidate(name);
-            check = false;
-        }
+       
 
 
 
